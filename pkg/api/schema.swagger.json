@@ -2,8 +2,9 @@
   "swagger": "2.0",
   "host": "127.0.0.1:8081",
   "info": {
-    "title": "schema.proto",
-    "version": "version not set"
+    "title": "Immudb REST client",
+    "version": "1",
+    "description": "This is a demo client for immudb. The code for this project is here: https://github.com/codenotary/immurestclient"
   },
   "consumes": [
     "application/json"
