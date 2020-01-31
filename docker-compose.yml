@@ -9,3 +9,17 @@ services:
       - ./pkg/api/schema.swagger.json:/openapi.json
     environment:
       SWAGGER_JSON: /openapi.json
+  immud:
+    image: immud
+    build: https://github.com/codenotary/immudb.git#feat/fetch-api
+    container_name: immud
+    command: "immud --address immud"
+    ports:
+      - "8083:8080"
+  immurestproxy:
+    image: immurestproxy
+    container_name: immurestproxy
+    build:
+      context: ./
+    ports:
+      - "8081:8081"
