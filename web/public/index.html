@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Immudb demo</title>
+</head>
+<body style='background: url("https://www.codenotary.io/wp-content/themes/codenotary/assets/images/body-back.jpg")'>
+
+<div class="container">
+    <img style="padding-top: 30px" src="https://www.codenotary.io/wp-content/uploads/2017/10/logo.png" alt="CodeNotary" title="CodeNotary" >
+    <div style="padding-top: 30px" class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        GET
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form>
+                            <div class="form-group">
+                                <label for="get_key">Key</label>
+                                <input type="text" class="form-control" id="get_key">
+                            </div>
+                            <button id="get_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="get_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        SET
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form id="set_form">
+                            <div class="form-group">
+                                <label for="set_key">Key</label>
+                                <input name="key" type="text" class="form-control" id="set_key">
+                                <label for="set_value">Value</label>
+                                <input name="value" type="text" class="form-control" id="set_value">
+                            </div>
+                            <button id="set_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="set_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        CONSISTENCY PROOF
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form>
+                            <div class="form-group">
+                                <label for="cp_index">Index</label>
+                                <input type="text" class="form-control" id="cp_index">
+                            </div>
+                            <button id="cp_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="cp_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        INCLUSION PROOF
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form>
+                            <div class="form-group">
+                                <label for="ip_index">Index</label>
+                                <input type="text" class="form-control" id="ip_index">
+                            </div>
+                            <button id="ip_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="ip_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="js/global.js" charset="UTF-8"></script>
+</body>
+</html>
