@@ -127,6 +127,68 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-header" id="headingFive">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                        HISTORY
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form>
+                            <div class="form-group">
+                                <label for="h_key">Key</label>
+                                <input type="text" class="form-control" id="h_key">
+                            </div>
+                            <button id="h_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="h_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingSix">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                        SCAN
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <form>
+                            <div class="form-group">
+                                <label for="scan_prefix">Prefix</label>
+                                <input type="text" class="form-control" id="scan_prefix">
+                                <!--label for="scan_offset">Offset</label>
+                                <input type="text" class="form-control" id="scan_offset">
+                                <label for="scan_limit">Limit</label>
+                                <input type="number" class="form-control" id="scan_limit"-->
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="scan_reverse">
+                                    <label class="form-check-label" for="scan_reverse">Reverse</label>
+                                </div>
+                            </div>
+                            <button id="scan_exec" type="button" class="btn btn-primary">Execute</button>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <pre id="scan_res" ></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
