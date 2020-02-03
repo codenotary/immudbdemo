@@ -83,8 +83,8 @@ $('document').ready(function(){
     $('#scan_exec').on('click', function(){
         scpost = {}
         scpost.prefix = btoa($('#scan_prefix').val());
-        //scpost.offset = btoa($('#scan_offset').val());
-        //scpost.limit = parseInt($('#scan_limit').val());
+        scpost.offset = btoa($('#scan_offset').val());
+        scpost.limit = parseInt($('#scan_limit').val());
         scpost.reverse = $('#scan_reverse').is(":checked");
         if ($.trim(scpost.prefix) != ''){
             $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/scan", JSON.stringify(scpost) , function(data) {
