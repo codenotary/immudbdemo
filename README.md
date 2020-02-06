@@ -1,5 +1,5 @@
 # ImmuDB web client
-This package is a rest proxy that convert json rest calls in grpc for immudb service.  
+This package is a rest proxy that convert json rest calls in grpc for immudb service.
 Is implemented with [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway).
 
 The docker-compose file launch 4 containers:
@@ -22,5 +22,5 @@ To veryfy consinstency use [immu client](https://github.com/codenotary/immudb/tr
 ```
 
 ## Improvements
-Porting verify algorithm inside javascript immu web client.  
+Porting verify algorithm inside javascript immu web client.
 Add .env to dynamic configure env vars.
