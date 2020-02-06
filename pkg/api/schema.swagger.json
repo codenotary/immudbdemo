@@ -232,6 +232,32 @@
         ]
       }
     },
+    "/v1/immurestproxy/item/safe": {
+      "post": {
+        "operationId": "SafeSet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/schemaProof"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/schemaSafeSetOptions"
+            }
+          }
+        ],
+        "tags": [
+          "ImmuService"
+        ]
+      }
+    },
     "/v1/immurestproxy/item/scan": {
       "post": {
         "operationId": "Scan",
@@ -278,6 +304,22 @@
             "format": "byte"
           }
         ],
+        "tags": [
+          "ImmuService"
+        ]
+      }
+    },
+    "/v1/immurestproxy/root": {
+      "get": {
+        "operationId": "CurrentRoot",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/schemaRoot"
+            }
+          }
+        },
         "tags": [
           "ImmuService"
         ]
@@ -437,6 +479,65 @@
         "value": {
           "type": "string",
           "format": "byte"
+        }
+      }
+    },
+    "schemaProof": {
+      "type": "object",
+      "properties": {
+        "leaf": {
+          "type": "string",
+          "format": "byte"
+        },
+        "index": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "root": {
+          "type": "string",
+          "format": "byte"
+        },
+        "at": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "inclusionPath": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "byte"
+          }
+        },
+        "consistencyPath": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      }
+    },
+    "schemaRoot": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "root": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "schemaSafeSetOptions": {
+      "type": "object",
+      "properties": {
+        "kv": {
+          "$ref": "#/definitions/schemaKeyValue"
+        },
+        "rootIndex": {
+          "$ref": "#/definitions/schemaIndex"
         }
       }
     },
