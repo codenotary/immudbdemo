@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/codenotary/immudbrestproxy/pkg/status"
+	"google.golang.org/grpc/grpclog"
+	"log"
 	"net/http"
 
 	"github.com/golang/glog"
@@ -16,7 +19,7 @@ import (
 var (
 	// command-line options:
 	// gRPC server endpoint
-	grpcServerEndpoint = flag.String("grpc-server-endpoint",  "immud:8080", "gRPC server endpoint")
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", "127.0.0.1:8083", "gRPC server endpoint")
 )
 
 func run() error {
@@ -31,7 +34,35 @@ func run() error {
 	handler := cors.Default().Handler(mux)
 
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gw.RegisterImmuServiceHandlerFromEndpoint(ctx, mux,  *grpcServerEndpoint, opts)
+
+	err := gw.RegisterImmuServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+
+	conn, err := grpc.Dial(*grpcServerEndpoint, opts...)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Infof("Failed to close conn to %s: %v", grpcServerEndpoint, cerr)
+			}
+			return
+		}
+		go func() {
+			<-ctx.Done()
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Infof("Failed to close conn to %s: %v", grpcServerEndpoint, cerr)
+			}
+		}()
+	}()
+
+	client := gw.NewImmuServiceClient(conn)
+	rp := status.NewRootprovider(client)
+
+	root, err := rp.GetRoot(ctx)
+
+	log.Println(root)
+
 	if err != nil {
 		return err
 	}
