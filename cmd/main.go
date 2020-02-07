@@ -3,17 +3,13 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/codenotary/immudbrestproxy/pkg/status"
-	"google.golang.org/grpc/grpclog"
-	"log"
-	"net/http"
-
+	"github.com/codenotary/immudbrestproxy/pkg/api"
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/rs/cors"
 	"google.golang.org/grpc"
-
-	gw "github.com/codenotary/immudbrestproxy/pkg/api"
+	"google.golang.org/grpc/grpclog"
+	"net/http"
 )
 
 var (
@@ -35,7 +31,7 @@ func run() error {
 
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	err := gw.RegisterImmuServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	err := api.RegisterImmuServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 
 	conn, err := grpc.Dial(*grpcServerEndpoint, opts...)
 	if err != nil {
@@ -56,18 +52,15 @@ func run() error {
 		}()
 	}()
 
-	client := gw.NewImmuServiceClient(conn)
-	rp := status.NewRootprovider(client)
+	client := api.NewImmuServiceClient(conn)
+	rp := api.NewRootprovider(client)
 
-	root, err := rp.GetRoot(ctx)
-
-	log.Println(root)
+	rp.GetRoot(ctx)
 
 	if err != nil {
 		return err
 	}
 
-	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(":8081", handler)
 }
 

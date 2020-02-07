@@ -99,8 +99,18 @@ message Proof {
 	repeated bytes consistencyPath = 6;
 }
 
+message SafeItem {
+	Item item = 1;
+	Proof proof = 2;
+}
+
 message SafeSetOptions {
 	KeyValue kv = 1;
+	Index rootIndex = 2;
+}
+
+message SafeGetOptions {
+	Key key = 1;
 	Index rootIndex = 2;
 }
 
@@ -125,7 +135,13 @@ service ImmuService {
         option (google.api.http) = {
             get: "/v1/immurestproxy/item/{key}"
         };
-    };
+	};
+	rpc SafeGet(SafeGetOptions) returns (SafeItem){
+		option (google.api.http) = {
+            post: "/v1/immurestproxy/item/safe/get"
+            body: "*"
+        };
+	};
 	rpc SetBatch (KVList) returns (Index){
 		option (google.api.http) = {
             post: "/v1/immurestproxy/batch/set"
