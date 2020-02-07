@@ -3,7 +3,7 @@ WORKDIR /src
 
 COPY . .
 
-RUN  GOARCH=amd64 GOOS=linux go build ./cmd/immurestproxy/main.go
+RUN  GOARCH=amd64 GOOS=linux go build ./cmd/main.go
 
 FROM scratch
 COPY --from=scratch /src/main /bin/main
