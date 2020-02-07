@@ -57,7 +57,7 @@ func (f forwardSafeGetResp) forwardSafeGetResp(ctx context.Context, mux *runtime
 			if verified {
 				//saving a fresh root
 				tocache := new(Root)
-				tocache.Index = p.Proof.Index
+				tocache.Index = p.Proof.At
 				tocache.Root = p.Proof.Root
 				SetRoot(tocache)
 			}
