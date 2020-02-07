@@ -258,6 +258,32 @@
         ]
       }
     },
+    "/v1/immurestproxy/item/safe/get": {
+      "post": {
+        "operationId": "SafeGet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/schemaSafeItem"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/schemaSafeGetOptions"
+            }
+          }
+        ],
+        "tags": [
+          "ImmuService"
+        ]
+      }
+    },
     "/v1/immurestproxy/item/scan": {
       "post": {
         "operationId": "Scan",
@@ -527,6 +553,28 @@
         "root": {
           "type": "string",
           "format": "byte"
+        }
+      }
+    },
+    "schemaSafeGetOptions": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/schemaKey"
+        },
+        "rootIndex": {
+          "$ref": "#/definitions/schemaIndex"
+        }
+      }
+    },
+    "schemaSafeItem": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "$ref": "#/definitions/schemaItem"
+        },
+        "proof": {
+          "$ref": "#/definitions/schemaProof"
         }
       }
     },
