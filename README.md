@@ -16,11 +16,10 @@ To tamper the database use [nimmu](https://github.com/codenotary/immudb/tree/mas
 sudo ./nimmu rawset {key} {val} -d /path/to/immudb-data/demo/data
 ```
 ## Verify data
-To veryfy consinstency use [immu client](https://github.com/codenotary/immudb/tree/master/cmd/immu)
+To veryfy inclusion use [immu client](https://github.com/codenotary/immudb/tree/master/cmd/immu)
 ```bash
 ./immu --address 127.0.0.1 --port 8083 consistency {value_index} {root}
 ```
-
+After that a safeGet on the same key will trigger a danger alert
 ## Improvements
-Porting verify algorithm inside javascript immu web client.
 Add .env to dynamic configure env vars.
