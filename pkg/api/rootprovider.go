@@ -1,9 +1,8 @@
-package status
+package api
 
 import (
 	"bytes"
 	"context"
-	"github.com/codenotary/immudbrestproxy/pkg/api"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
@@ -13,42 +12,35 @@ import (
 const ROOT_FN = ".root"
 
 type Rootprovider interface {
-	GetRoot(ctx context.Context) (*api.Root, error)
-	SetRoot(root *api.Root) error
+	GetRoot(ctx context.Context) (*Root, error)
 }
 
 type rootprovider struct {
-	immuC api.ImmuServiceClient
+	immuC ImmuServiceClient
 }
 
-func NewRootprovider(immuC api.ImmuServiceClient) Rootprovider {
+func NewRootprovider(immuC ImmuServiceClient) Rootprovider {
 	return &rootprovider{immuC}
 }
 
-func (r *rootprovider) GetRoot(ctx context.Context) (*api.Root, error) {
-	root := new(api.Root)
-
-	if buf, err := ioutil.ReadFile(ROOT_FN); err == nil {
-		if err = root.XXX_Unmarshal(buf); err != nil {
-			return nil, err
-		}
+func (r *rootprovider) GetRoot(ctx context.Context) (*Root, error) {
+	if root, err := GetCachedRoot(); err == nil {
 		return root, nil
 	}
-
 	var protoReq empty.Empty
 	var metadata runtime.ServerMetadata
 	if root, err := r.immuC.CurrentRoot(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD)); err != nil {
 		return nil, err
 	} else {
 		// Everytime we found a fresh root we persist it on ROOT_FN file
-		if err := r.SetRoot(root); err != nil {
+		if err := SetRoot(root); err != nil {
 			return nil, err
 		}
 		return root, nil
 	}
 }
 
-func (r *rootprovider) SetRoot(root *api.Root) error {
+func SetRoot(root *Root) error {
 	var buf bytes.Buffer
 	raw, err := root.XXX_Marshal(buf.Bytes(), true)
 	if err != nil {
@@ -59,4 +51,17 @@ func (r *rootprovider) SetRoot(root *api.Root) error {
 		return err
 	}
 	return nil
+}
+
+
+func GetCachedRoot() (*Root, error) {
+	root := new(Root)
+	buf, err := ioutil.ReadFile(ROOT_FN)
+	if err == nil {
+		if err = root.XXX_Unmarshal(buf); err != nil {
+			return nil, err
+		}
+		return root, nil
+	}
+	return nil, err
 }
