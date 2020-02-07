@@ -951,7 +951,7 @@ func RegisterImmuServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_ImmuService_SafeSet_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := overwrite_request_ImmuService_SafeSet_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -1263,4 +1263,9 @@ var (
 	forward_ImmuService_History_0 = runtime.ForwardResponseMessage
 
 	forward_ImmuService_Health_0 = runtime.ForwardResponseMessage
+)
+
+var (
+	overwrite_request_ImmuService_SafeSet_0 = request_ImmuService_SafeSet_0
+	overwrite_request_ImmuService_SafeGet_0 = request_ImmuService_SafeGet_0
 )

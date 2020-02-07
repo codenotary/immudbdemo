@@ -55,7 +55,7 @@ func run() error {
 	client := api.NewImmuServiceClient(conn)
 	rp := api.NewRootprovider(client)
 
-	rp.GetRoot(ctx)
+	_, err = rp.GetRoot(ctx)
 
 	if err != nil {
 		return err
