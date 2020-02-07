@@ -5,6 +5,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"github.com/golang/protobuf/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
@@ -12,6 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -41,6 +43,7 @@ func (r requestSafeGetCustom) request_ImmuService_SafeGet_Custom(ctx context.Con
 	ri := new(Index)
 	ri.Index = root.Index
 	protoReq.RootIndex = ri
+	log.Print(fmt.Sprintf("Retrieving:\n index: %d \nkey: %s", protoReq.RootIndex.Index, string(protoReq.Key.Key)))
 
 	msg, err := client.SafeGet(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err

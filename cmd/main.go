@@ -2,13 +2,16 @@ package main
 
 import (
 	"context"
+	"encoding/hex"
 	"flag"
+	"fmt"
 	"github.com/codenotary/immudbrestproxy/pkg/api"
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
+	"log"
 	"net/http"
 )
 
@@ -55,8 +58,8 @@ func run() error {
 	client := api.NewImmuServiceClient(conn)
 	rp := api.NewRootprovider(client)
 
-	_, err = rp.GetRoot(ctx)
-
+	root, err := rp.GetRoot(ctx)
+	log.Print(fmt.Sprintf("Starting...\nRoot index from immudb: %d \nRoot hash from immudb: %s", root.Index, hex.EncodeToString(root.Root)))
 	if err != nil {
 		return err
 	}

@@ -5,8 +5,11 @@ package api
 
 import (
 	"context"
+	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"github.com/codenotary/immudb/pkg/api/schema"
+	"log"
 	"net/http"
 
 	"github.com/golang/protobuf/proto"
@@ -45,21 +48,26 @@ func (f forwardSafeSetResp) forwardSafeSetResp(ctx context.Context, mux *runtime
 			if err != nil {
 				panic(err)
 			}
+			log.Print(fmt.Sprintf("SafeSET Verifing...\nLeaf: %s \nRoot: %s\n Index: %d", hex.EncodeToString(p.Leaf), hex.EncodeToString(root.Root), root.Index))
+
 			/* remember to calc the leaf hash from key val with values that are coming from client and index from server.
 			DO NOT USE leaf generated from server for security reasons. (maybe somebody can create a temper leaf)
 			*/
 			verified := proof.Verify(p.Leaf, *root)
+			log.Print(fmt.Sprintf("Safe SET Verified %t", verified))
 			m["verified"] = verified
 			newData, _ := json.Marshal(m)
-
 			if verified {
 				//saving a fresh root
 				tocache := new(Root)
 				tocache.Index = p.Index
 				tocache.Root = p.Root
 				SetRoot(tocache)
+				canc, _ := GetCachedRoot()
+				log.Print(fmt.Sprintf("NewRoot...\nRoot index: %d \nRoot hash: %s", canc.Index, hex.EncodeToString(canc.Root)))
+			} else {
+				log.Print("SafeSET skipping root saving")
 			}
-
 			w.Write(newData)
 			return
 		}
