@@ -19,7 +19,7 @@
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        GET
+                        GET A TRANSACTION
                     </button>
                 </h2>
             </div>
@@ -29,15 +29,15 @@
                     <div class="container">
                         <form>
                             <div class="form-group">
-                                <label for="get_key">Key</label>
+                                <label for="get_key">Transaction Key</label>
                                 <input type="text" class="form-control" id="get_key">
                             </div>
                             <button id="get_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="card-body">
-                        <div class="container">
-                            <pre id="get_res" ></pre>
+                    <div class="container pt-3">
+                        <div class="alert alert-primary" role="alert">
+                            <samp id="get_res" />.</samp>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        SET
+                        INSERT A NEW TRANSACTION
                     </button>
                 </h2>
             </div>
@@ -56,7 +56,7 @@
                     <div class="container">
                         <form id="set_form">
                             <div class="form-group">
-                                <label for="set_key">Key</label>
+                                <label for="set_key">Transaction Key</label>
                                 <input name="key" type="text" class="form-control" id="set_key">
                                 <label for="set_value">Value</label>
                                 <input name="value" type="text" class="form-control" id="set_value">
@@ -64,16 +64,16 @@
                             <button id="set_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="card-body">
-                        <div class="container">
-                            <pre id="set_res" ></pre>
+                    <div class="container pt-3">
+                        <div class="alert alert-primary" role="alert">
+                            <samp id="set_res" />.</samp>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="headingThree">
+        <!--div class="card" >
+            <div class="card-header" id="headingThree" >
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                         CONSISTENCY PROOF
@@ -100,8 +100,8 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="headingFour">
+        <div class="card" >
+            <div class="card-header" id="headingFour" class="d-none">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
                         INCLUSION PROOF
@@ -126,8 +126,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
+        </div-->
+        <div class="card" >
             <div class="card-header" id="headingFive">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
@@ -146,15 +146,15 @@
                             <button id="h_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="card-body">
-                        <div class="container">
-                            <pre id="h_res" ></pre>
+                    <div class="container pt-3">
+                        <div class="alert alert-primary" role="alert">
+                            <pre id="h_res" />.</pre>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card">
+        <!--div class="card" >
             <div class="card-header" id="headingSix">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
@@ -188,7 +188,25 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div-->
+    </div>
+    <div id="id_getsuccess" class="alert alert-success alert-dismissible fade fixed-bottom" role="alert">
+        <strong>Transaction retrieved!</strong> Your transaction has been retrieved and it was not tampered.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div id="id_getdanger" class="alert alert-danger fade fixed-bottom" role="alert">
+        <strong>Transaction tempered!</strong> Your transaction has been tempered!.
+    </div>
+    <div id="id_setsuccess" class="alert alert-success alert-dismissible fade fixed-bottom" role="alert">
+        <strong>Transaction retrieved!</strong> Your transaction has been inserted correctly.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div id="id_setdanger" class="alert alert-danger fade fixed-bottom" role="alert">
+        <strong>Database tempered!</strong> Your transaction has been inserted in a tempered database!.
     </div>
 </div>
 

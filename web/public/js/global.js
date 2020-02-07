@@ -2,24 +2,44 @@ $('document').ready(function(){
     $('#get_exec').on('click', function(){
         var key = $('#get_key').val();
         if ($.trim(key) != ''){
-            $.get( "http://127.0.0.1:8081/v1/immurestproxy/item/"+btoa(key), function(data) {
-                finaldata = {}
-                finaldata.key = atob(data.key)
-                finaldata.value = atob(data.value)
-                finaldata.index = data.index;
-                $('#get_res').text(JSON.stringify(finaldata, null, 2));
+            var sgpost = {}
+            sgpost.key = {}
+            sgpost.key.key = btoa($('#get_key').val());
+
+            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
+                $('#get_res').text(atob(data.item.value));
+                if(data.verified){
+                    $('#id_getsuccess').addClass( "show" );
+                    $("#id_getsuccess").fadeTo(2000, 500).slideUp(500, function(){
+                        $("#id_getsuccess").slideUp(500);
+                    });
+                }else{
+                    $('#id_getdanger').addClass( "show" );
+                    $('#id_getsuccess').removeClass( "show" );
+                }
             }).fail(function(error) {
-                $('#get_res').text(JSON.stringify(error.responseJSON, null, 2));
+                $('#get_res').text(error.responseJSON.message);
             });
         };
     });
     $('#set_exec').on('click', function(){
         var post = {}
-        post.key = btoa($('#set_key').val());
-        post.value = btoa($('#set_value').val());
-        if ($.trim(post.key) != '' && $.trim(post.value) != ''){
-            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item", JSON.stringify(post) , function(data) {
-                $('#set_res').text(JSON.stringify(data, null, 2));
+        post.kv = {}
+        post.kv.key = btoa($('#set_key').val());
+        post.kv.value = btoa($('#set_value').val());
+        if ($.trim(post.kv.key) != '' && $.trim(post.kv.value) != ''){
+            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/safe", JSON.stringify(post) , function(data) {
+                if(data.verified){
+                    $('#id_setsuccess').addClass( "show" );
+                    $("#id_setsuccess").fadeTo(2000, 500).slideUp(500, function(){
+                        $("#id_setsuccess").slideUp(500);
+                    });
+                }else{
+                    $('#id_setdanger').addClass( "show" );
+                    $('#id_setsuccess').removeClass( "show" );
+                }
+
+                $('#set_res').text(atob(post.kv.value));
             }).fail(function(data) {
                 $('#set_res').text(JSON.stringify(data.responseJSON, null, 2));
             });
