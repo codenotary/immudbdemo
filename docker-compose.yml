@@ -19,7 +19,7 @@ services:
       SWAGGER_JSON: /openapi.json
   immud:
     image: immud
-    build: https://github.com/codenotary/immudb.git#feat/fetch-api
+    build: https://github.com/codenotary/immudb.git#feat/safesetget
     container_name: immud
     command: "immud --address immud --directory immudb-data --name demo"
     volumes:
