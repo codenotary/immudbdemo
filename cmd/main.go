@@ -13,19 +13,19 @@ import (
 	"google.golang.org/grpc/grpclog"
 	"log"
 	"net/http"
+	"os"
 )
 
 var (
 	// command-line options:
 	// gRPC server endpoint
-	grpcServerEndpoint = flag.String("grpc-server-endpoint", "immud:8080", "gRPC server endpoint")
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", os.Getenv("IMMUD_HOST")+":8080", "gRPC server endpoint")
 )
 
 func run() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
-
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
@@ -64,7 +64,7 @@ func run() error {
 		return err
 	}
 
-	return http.ListenAndServe(":8081", handler)
+	return http.ListenAndServe(":"+os.Getenv("IMMURESTPROXY_PORT"), handler)
 }
 
 func main() {

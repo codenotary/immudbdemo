@@ -1,3 +1,5 @@
 .idea
 main
 .root
+immudb-data/demo/data
+web/public/js/env.js

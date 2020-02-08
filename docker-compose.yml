@@ -4,15 +4,19 @@ services:
     image: nginx:alpine
     container_name: "immuclient"
     ports:
-      - 8085:80
+      - "${IMMUCLIENT_PORT}:80"
     volumes:
       - ./web/public:/srv/www
       - ./web/conf/default.conf:/etc/nginx/conf.d/default.conf
+    command: ["/bin/sh",  "-c",  "envsubst < /srv/www/temp/env.template.js > /srv/www/js/env.js && exec nginx -g 'daemon off;'"]
+    environment:
+      - IMMURESTPROXY_PORT=${IMMURESTPROXY_PORT}
+      - IMMURESTPROXY_HOST=${IMMURESTPROXY_HOST}
   swagger-ui:
     image: swaggerapi/swagger-ui
     container_name: "swagger-ui"
     ports:
-      - "8084:8080"
+      - "${SWAGGERUI_PORT}:8080"
     volumes:
       - ./pkg/api/schema.swagger.json:/openapi.json
     environment:
@@ -21,15 +25,20 @@ services:
     image: immud
     build: https://github.com/codenotary/immudb.git#feat/safesetget
     container_name: immud
-    command: "immud --address immud --directory immudb-data --name demo"
+    command: "immud --address ${IMMUD_HOST} --directory immudb-data --name demo"
     volumes:
       - ./immudb-data:/immudb-data
     ports:
-      - "8083:8080"
+      - "${IMMUD_PORT}:8080"
   immurestproxy:
     image: immurestproxy
     container_name: immurestproxy
     build:
       context: ./
     ports:
-      - "8081:8081"
+      - "${IMMURESTPROXY_PORT}:8081"
+    environment:
+      - IMMUD_HOST=${IMMUD_HOST}
+      - IMMURESTPROXY_PORT=${IMMURESTPROXY_PORT}
+    depends_on:
+      - immud

@@ -6,7 +6,7 @@ $('document').ready(function(){
             sgpost.key = {}
             sgpost.key.key = btoa($('#get_key').val());
 
-            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
+            $.post( ENDPOINT+"/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
                 $('#get_res').text(atob(data.item.value));
                 if(data.verified){
                     $('#id_getsuccess').addClass( "show" );
@@ -28,7 +28,7 @@ $('document').ready(function(){
         post.kv.key = btoa($('#set_key').val());
         post.kv.value = btoa($('#set_value').val());
         if ($.trim(post.kv.key) != '' && $.trim(post.kv.value) != ''){
-            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/safe", JSON.stringify(post) , function(data) {
+            $.post( ENDPOINT+"/v1/immurestproxy/item/safe", JSON.stringify(post) , function(data) {
                 if(data.verified){
                     $('#id_setsuccess').addClass( "show" );
                     $("#id_setsuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -48,7 +48,7 @@ $('document').ready(function(){
     $('#cp_exec').on('click', function(){
         index = $('#cp_index').val();
         if ($.trim(index) != ''){
-            $.get( "http://127.0.0.1:8081/v1/immurestproxy/consistencyproof/"+index, function(data) {
+            $.get( ENDPOINT+"/v1/immurestproxy/consistencyproof/"+index, function(data) {
                 fd = {}
                 fd.first = data.first
                 fd.second = data.second
@@ -62,7 +62,7 @@ $('document').ready(function(){
     $('#ip_exec').on('click', function(){
         index = $('#ip_index').val();
         if ($.trim(index) != ''){
-            $.get( "http://127.0.0.1:8081/v1/immurestproxy/inclusionproof/"+index, function(data) {
+            $.get( ENDPOINT+"/v1/immurestproxy/inclusionproof/"+index, function(data) {
 
                 fd = {}
                 fd.at = data.at
@@ -84,7 +84,7 @@ $('document').ready(function(){
     $('#h_exec').on('click', function(){
         hk = $('#h_key').val();
         if ($.trim(hk) != ''){
-            $.get( "http://127.0.0.1:8081/v1/immurestproxy/history/"+btoa(hk), function(data) {
+            $.get( ENDPOINT+"/v1/immurestproxy/history/"+btoa(hk), function(data) {
                 fdata = [];
                 for (var i = 0; i < data.items.length; i++) {
                     ele = {};
@@ -107,7 +107,7 @@ $('document').ready(function(){
         scpost.limit = parseInt($('#scan_limit').val());
         scpost.reverse = $('#scan_reverse').is(":checked");
         if ($.trim(scpost.prefix) != ''){
-            $.post( "http://127.0.0.1:8081/v1/immurestproxy/item/scan", JSON.stringify(scpost) , function(data) {
+            $.post( ENDPOINT+"/v1/immurestproxy/item/scan", JSON.stringify(scpost) , function(data) {
 
                 $('#scan_res').text(JSON.stringify(serializeItems(data.items), null, 2));
             }).fail(function(data) {
