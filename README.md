@@ -10,7 +10,7 @@ The docker-compose file launch 4 containers:
 
 To verify immudb functionalities set all values you like with demo client.
 
-## Temperproof
+## Tamperproof
 To tamper the database use [nimmu](https://github.com/codenotary/immudb/tree/master/tools/nimmu)
 ```bash
 sudo ./nimmu rawset {key} {val} -d /path/to/immudb-data/demo/data
