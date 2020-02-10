@@ -8,6 +8,7 @@ $('document').ready(function(){
 
             $.post( ENDPOINT+"/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
                 $('#get_res').text(atob(data.item.value));
+                $('#c_get_res').addClass( "visible" ).removeClass("invisible");
                 if(data.verified){
                     $('#id_getsuccess').addClass( "show" );
                     $("#id_getsuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -29,6 +30,7 @@ $('document').ready(function(){
         post.kv.value = btoa($('#set_value').val());
         if ($.trim(post.kv.key) != '' && $.trim(post.kv.value) != ''){
             $.post( ENDPOINT+"/v1/immurestproxy/item/safe", JSON.stringify(post) , function(data) {
+                $('#c_set_res').addClass( "visible" ).removeClass("invisible");
                 if(data.verified){
                     $('#id_setsuccess').addClass( "show" );
                     $("#id_setsuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -85,15 +87,16 @@ $('document').ready(function(){
         hk = $('#h_key').val();
         if ($.trim(hk) != ''){
             $.get( ENDPOINT+"/v1/immurestproxy/history/"+btoa(hk), function(data) {
+                $('#c_h_res').addClass( "visible" ).removeClass("invisible");
                 fdata = [];
                 for (var i = 0; i < data.items.length; i++) {
                     ele = {};
                     ele.key = atob(data.items[i].key);
-                    ele.value = atob(data.items[i].value);
+                    ele.value = atob(data.items[i].value)
                     ele.index = data.items[i].index;
-                    fdata.push(ele)
+                    fdata.push(JSON.stringify(ele, null, 2))
                 }
-                $('#h_res').text(JSON.stringify(fdata, null, 2));
+                $('#h_res').text(fdata, null, 2);
             }).fail(function(error) {
                 $('#h_res').text(JSON.stringify(error.responseJSON, null, 2));
             });

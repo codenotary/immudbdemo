@@ -35,10 +35,8 @@
                             <button id="get_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="container pt-3">
-                        <div class="alert alert-primary" role="alert">
-                            <samp id="get_res" />.</samp>
-                        </div>
+                    <div id="c_get_res" class="container pt-3 invisible">
+                        <textarea name="value" class="form-control" id="get_res" rows="10" readonly ></textarea>
                     </div>
                 </div>
             </div>
@@ -59,15 +57,13 @@
                                 <label for="set_key">Transaction Key</label>
                                 <input name="key" type="text" class="form-control" id="set_key">
                                 <label for="set_value">Value</label>
-                                <input name="value" type="text" class="form-control" id="set_value">
+                                <textarea name="value" class="form-control" id="set_value" rows="3"></textarea>
                             </div>
                             <button id="set_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="container pt-3">
-                        <div class="alert alert-primary" role="alert">
-                            <samp id="set_res" />.</samp>
-                        </div>
+                    <div id="c_set_res" class="container pt-3 invisible">
+                        <textarea name="value" class="form-control" id="set_res" rows="10" readonly ></textarea>
                     </div>
                 </div>
             </div>
@@ -146,10 +142,8 @@
                             <button id="h_exec" type="button" class="btn btn-primary">Execute</button>
                         </form>
                     </div>
-                    <div class="container pt-3">
-                        <div class="alert alert-primary" role="alert">
-                            <pre id="h_res" />.</pre>
-                        </div>
+                    <div id="c_h_res" class="container pt-3 invisible">
+                        <textarea name="value" class="form-control" id="h_res" rows="10" readonly ></textarea>
                     </div>
                 </div>
             </div>
