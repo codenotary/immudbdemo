@@ -40,6 +40,5 @@ services:
     environment:
       - IMMUD_HOST=${IMMUD_HOST}
       - IMMURESTPROXY_PORT=${IMMURESTPROXY_PORT}
-      - IMMURESTPROXY_HOST=${IMMURESTPROXY_HOST}
     depends_on:
       - immud

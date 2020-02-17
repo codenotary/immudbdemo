@@ -64,7 +64,7 @@ func run() error {
 		return err
 	}
 
-	return http.ListenAndServe(os.Getenv("IMMURESTPROXY_HOST")+":"+os.Getenv("IMMURESTPROXY_PORT"), handler)
+	return http.ListenAndServe(":"+os.Getenv("IMMURESTPROXY_PORT"), handler)
 }
 
 func main() {
