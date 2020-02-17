@@ -92,7 +92,7 @@ $('document').ready(function(){
                 for (var i = 0; i < data.items.length; i++) {
                     ele = {};
                     ele.key = atob(data.items[i].key);
-                    ele.value = atob(data.items[i].value)
+                    ele.value = JSON.parse(atob(data.items[i].value))
                     ele.index = data.items[i].index;
                     fdata.push(JSON.stringify(ele, null, 2))
                 }
