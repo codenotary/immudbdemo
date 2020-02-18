@@ -92,9 +92,10 @@ $('document').ready(function(){
                 for (var i = 0; i < data.items.length; i++) {
                     ele = {};
                     ele.key = atob(data.items[i].key);
-                    ele.value = JSON.parse(atob(data.items[i].value))
                     ele.index = data.items[i].index;
-                    fdata.push(JSON.stringify(ele, null, 2))
+                    let temp = JSON.stringify(atob(data.items[i].value), null, 2)
+                    temp = temp.replaceAll("\\n", "\n").replaceAll("\\t", "\t").replaceAll("\\\"", "\"")
+                    fdata.push(temp)
                 }
                 $('#h_res').text(fdata, null, 2);
             }).fail(function(error) {
@@ -149,3 +150,11 @@ function stringToHex (tmp) {
 function d2h(d) {
     return d.toString(16);
 }
+
+String.prototype.replaceAll = function(searchStr, replaceStr) {
+    var str = this;
+
+    // escape regexp special characters in search string
+    searchStr = searchStr.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return str.replace(new RegExp(searchStr, 'gi'), replaceStr);
+};
