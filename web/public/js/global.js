@@ -5,9 +5,10 @@ $('document').ready(function(){
             var sgpost = {}
             sgpost.key = {}
             sgpost.key.key = btoa($('#get_key').val());
-
             $.post( ENDPOINT+"/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
-                $('#get_res').text(atob(data.item.value));
+                let temp = {items : [data.item]}
+                let table = getTable(temp)
+                $('#get_res').html(table);
                 $('#c_get_res').addClass( "visible" ).removeClass("invisible");
                 if(data.verified){
                     $('#id_getsuccess').addClass( "show" );
@@ -27,10 +28,14 @@ $('document').ready(function(){
         var post = {}
         post.kv = {}
         post.kv.key = btoa($('#set_key').val());
-        post.kv.value = btoa($('#set_value').val());
+        let val = {}
+        val.ts = Date.now()
+        val.val= $('#set_value').val();
+        post.kv.value = btoa(JSON.stringify(val, null, 2))
+
         if ($.trim(post.kv.key) != '' && $.trim(post.kv.value) != ''){
             $.post( ENDPOINT+"/v1/immurestproxy/item/safe", JSON.stringify(post) , function(data) {
-                $('#c_set_res').addClass( "visible" ).removeClass("invisible");
+                //$('#c_set_res').addClass( "visible" ).removeClass("invisible");
                 if(data.verified){
                     $('#id_setsuccess').addClass( "show" );
                     $("#id_setsuccess").fadeTo(2000, 500).slideUp(500, function(){
@@ -40,8 +45,7 @@ $('document').ready(function(){
                     $('#id_setdanger').addClass( "show" );
                     $('#id_setsuccess').removeClass( "show" );
                 }
-
-                $('#set_res').text(atob(post.kv.value));
+                //$('#set_res').text(atob(post.kv.value));
             }).fail(function(data) {
                 $('#set_res').text(JSON.stringify(data.responseJSON, null, 2));
             });
@@ -87,17 +91,9 @@ $('document').ready(function(){
         hk = $('#h_key').val();
         if ($.trim(hk) != ''){
             $.get( ENDPOINT+"/v1/immurestproxy/history/"+btoa(hk), function(data) {
-                $('#c_h_res').addClass( "visible" ).removeClass("invisible");
-                fdata = [];
-                for (var i = 0; i < data.items.length; i++) {
-                    ele = {};
-                    ele.key = atob(data.items[i].key);
-                    ele.index = data.items[i].index;
-                    let temp = JSON.stringify(atob(data.items[i].value), null, 2)
-                    temp = temp.replaceAll("\\n", "\n").replaceAll("\\t", "\t").replaceAll("\\\"", "\"")
-                    fdata.push(temp)
-                }
-                $('#h_res').text(fdata, null, 2);
+                let table = getTable(data)
+                $('#h_res').html(table);
+
             }).fail(function(error) {
                 $('#h_res').text(JSON.stringify(error.responseJSON, null, 2));
             });
@@ -158,3 +154,32 @@ String.prototype.replaceAll = function(searchStr, replaceStr) {
     searchStr = searchStr.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     return str.replace(new RegExp(searchStr, 'gi'), replaceStr);
 };
+
+function getTable(data){
+    $('#c_h_res').addClass( "visible" ).removeClass("invisible");
+    let tbody = $('<tbody>')
+    for (var i = 0; i < data.items.length; i++) {
+
+        //let temp = JSON.stringify(atob(data.items[i].value), null, 2)
+        //temp = temp.replaceAll("\\n", "\n").replaceAll("\\t", "\t").replaceAll("\\\"", "\"")
+
+        let temp = JSON.parse(atob(data.items[i].value))
+        let row = $('<tr>');
+        let td0 = $('<th scope="row"></th>').text(data.items[i].index);
+        let td1 = $('<td>');
+        let td2 = $('<td>');
+        let span1 = $('<pre>').text(temp.ts);
+        let span2 = $('<pre>').text(temp.val);
+        td1.append(span1);
+        td2.append(span2);
+        row.append(td0);
+        row.append(td1);
+        row.append(td2);
+        tbody.append(row);
+    }
+    //$('#h_res').text(fdata, null, 2);
+    let table = $('<table>').addClass('table table-striped');
+    table.append('<thead><tr><th scope="col">#</th><th scope="col">Timestamp</th><th scope="col">Value</th></tr></thead>')
+    table.append(tbody)
+    return table
+}
