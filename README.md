@@ -18,7 +18,4 @@ sudo ./nimmu rawset {key} {val} -d /path/to/immudb-data/demo/data
 Verification is done inside wrapped safe set get methods.
 
 ## Improvements
-Refactor wrapping safe set code
-Manage external schema protobuffer package
-Remove useless interfaces
 Add tests

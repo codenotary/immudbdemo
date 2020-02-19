@@ -5,12 +5,11 @@ $('document').ready(function(){
             var sgpost = {}
             sgpost.key = {}
             sgpost.key.key = btoa($('#get_key').val());
-            $.post( ENDPOINT+"/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(data) {
-                let temp = {items : [data.item]}
-                let table = getTable(temp)
+            $.post( ENDPOINT+"/v1/immurestproxy/item/safe/get",JSON.stringify(sgpost), function(item) {
+                let table = getTable([item])
                 $('#get_res').html(table);
                 $('#c_get_res').addClass( "visible" ).removeClass("invisible");
-                if(data.verified){
+                if(item.verified){
                     $('#id_getsuccess').addClass( "show" );
                     $("#id_getsuccess").fadeTo(2000, 500).slideUp(500, function(){
                         $("#id_getsuccess").slideUp(500);
@@ -20,6 +19,7 @@ $('document').ready(function(){
                     $('#id_getsuccess').removeClass( "show" );
                 }
             }).fail(function(error) {
+                $('#c_get_res').addClass( "visible" ).removeClass("invisible");
                 $('#get_res').text(error.responseJSON.message);
             });
         };
@@ -158,14 +158,14 @@ String.prototype.replaceAll = function(searchStr, replaceStr) {
 function getTable(data){
     $('#c_h_res').addClass( "visible" ).removeClass("invisible");
     let tbody = $('<tbody>')
-    for (var i = 0; i < data.items.length; i++) {
+    for (var i = 0; i < data.length; i++) {
 
         //let temp = JSON.stringify(atob(data.items[i].value), null, 2)
         //temp = temp.replaceAll("\\n", "\n").replaceAll("\\t", "\t").replaceAll("\\\"", "\"")
 
-        let temp = JSON.parse(atob(data.items[i].value))
+        let temp = JSON.parse(atob(data[i].value))
         let row = $('<tr>');
-        let td0 = $('<th scope="row"></th>').text(data.items[i].index);
+        let td0 = $('<th scope="row"></th>').text(String( data[i].index));
         let td1 = $('<td>');
         let td2 = $('<td>');
         let span1 = $('<pre>').text(temp.ts);

@@ -10,8 +10,8 @@ services:
       - ./web/conf/default.conf:/etc/nginx/conf.d/default.conf
     command: ["/bin/sh",  "-c",  "envsubst < /srv/www/temp/env.template.js > /srv/www/js/env.js && exec nginx -g 'daemon off;'"]
     environment:
-      - IMMURESTPROXY_PORT=${IMMURESTPROXY_PORT}
-      - IMMURESTPROXY_HOST=${IMMURESTPROXY_HOST}
+      - IMMUGW_PORT=${IMMUGW_PORT}
+      - IMMUGW_HOST=${IMMUGW_HOST}
   swagger-ui:
     image: swaggerapi/swagger-ui
     container_name: "swagger-ui"
@@ -22,23 +22,23 @@ services:
     environment:
       SWAGGER_JSON: /openapi.json
   immud:
-    image: immud
-    build: https://github.com/codenotary/immudb.git#feat/safesetget
+    image: immudb
+    build: https://github.com/codenotary/immudb.git
     container_name: immud
-    command: "immud --address ${IMMUD_HOST} --directory immudb-data --name demo"
+    entrypoint: "immud --address ${IMMUD_HOST} --directory immudb-data --name demo"
     volumes:
       - ./immudb-data:/immudb-data
     ports:
       - "${IMMUD_PORT}:8080"
-  immurestproxy:
-    image: immurestproxy
-    container_name: immurestproxy
-    build:
-      context: ./
+  immugw:
+    image: immugw
+    build: https://github.com/mmeloni/immudb.git
+    container_name: immugw
+    entrypoint: "immugw --immudport 8080 --immudhost immud"
     ports:
-      - "${IMMURESTPROXY_PORT}:8081"
+      - "${IMMUGW_PORT}:8081"
     environment:
       - IMMUD_HOST=${IMMUD_HOST}
-      - IMMURESTPROXY_PORT=${IMMURESTPROXY_PORT}
+      - IMMUGW_PORT=${IMMUGW_PORT}
     depends_on:
       - immud
