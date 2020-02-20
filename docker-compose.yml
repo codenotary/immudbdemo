@@ -32,9 +32,9 @@ services:
       - "${IMMUD_PORT}:8080"
   immugw:
     image: immugw
-    build: https://github.com/mmeloni/immudb.git
+    build: https://github.com/codenotary/immudb.git
     container_name: immugw
-    entrypoint: "immugw --immudport 8080 --immudhost immud"
+    entrypoint: "immugw --host 0.0.0.0 --immudport 8080 --immudhost immud"
     ports:
       - "${IMMUGW_PORT}:8081"
     environment:
