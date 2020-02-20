@@ -160,15 +160,13 @@ function getTable(data){
     let tbody = $('<tbody>')
     for (var i = 0; i < data.length; i++) {
 
-        //let temp = JSON.stringify(atob(data.items[i].value), null, 2)
-        //temp = temp.replaceAll("\\n", "\n").replaceAll("\\t", "\t").replaceAll("\\\"", "\"")
-
         let temp = JSON.parse(atob(data[i].value))
         let row = $('<tr>');
         let td0 = $('<th scope="row"></th>').text(String( data[i].index));
         let td1 = $('<td>');
         let td2 = $('<td>');
-        let span1 = $('<pre>').text(temp.ts);
+        let date = new Date(temp.ts)
+        let span1 = $('<pre>').text(date.toUTCString());
         let span2 = $('<pre>').text(temp.val);
         td1.append(span1);
         td2.append(span2);
@@ -177,7 +175,6 @@ function getTable(data){
         row.append(td2);
         tbody.append(row);
     }
-    //$('#h_res').text(fdata, null, 2);
     let table = $('<table>').addClass('table table-striped');
     table.append('<thead><tr><th scope="col">#</th><th scope="col">Timestamp</th><th scope="col">Value</th></tr></thead>')
     table.append(tbody)
