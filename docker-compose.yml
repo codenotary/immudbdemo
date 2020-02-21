@@ -18,9 +18,9 @@ services:
     ports:
       - "${SWAGGERUI_PORT}:8080"
     volumes:
-      - ./pkg/api/schema.swagger.json:/openapi.json
+      - ./swagger/schema.swagger.json:/openapi.json
     environment:
-      SWAGGER_JSON: /openapi.json
+      - SWAGGER_JSON=/openapi.json
   immud:
     image: immudb
     build: https://github.com/codenotary/immudb.git
